@@ -1,0 +1,66 @@
+const Header = ()=>(
+  <div className ="jumbotron">
+     <h1 id="text">Markdown Previewer</h1>
+    </div>
+); 
+
+class Editor extends React.Component{
+  constructor(props){
+    super(props);
+    
+    this.state={
+      converter:new showdown.Converter(),
+      value:`Hello, World!\n===\n---\n# This is an h1\n## This is an h2\n### This is an h3\n#### This is an h4\n##### This is an h5\n###### This is an h6`
+    };
+    
+   
+  }
+  
+   createMarkup() {
+    return {__html: this.state.converter.makeHtml(this.state.value) };
+  }
+ 
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+  
+render(){
+  return(
+    <div className="container">
+    <div className="row">
+    <div className="col-12 col-sm-6">
+    <textarea id="editor" type="text" defaultValue ={this.state.value}
+      onChange ={this.handleChange.bind(this)}
+     >
+    </textarea>
+    </div>
+    <div className="col-12 col-sm-6">
+      <div id ="preview">
+        <div dangerouslySetInnerHTML={this.createMarkup()} />
+      </div>
+         </div>
+    </div>
+    </div>
+);
+}
+}
+
+class App extends React.Component{
+  constructor(props){
+    super(props);
+  }
+  
+  render(){
+    return(
+      <div className ="App">
+       <Header />
+        <Editor />
+        </div>
+    );
+  }
+}
+
+
+ReactDOM.render(<App />,document.getElementById("root"));
+
